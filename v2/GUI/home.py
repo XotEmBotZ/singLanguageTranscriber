@@ -1,7 +1,6 @@
 """Video transforms with OpenCV"""
 
 import av
-import cv2
 import streamlit as st
 from streamlit_webrtc import WebRtcMode, webrtc_streamer, RTCConfiguration
 from processing import signLanguageDetector

@@ -1,8 +1,6 @@
 # %%
 import cv2
 import numpy as np
-import os
-from matplotlib import pyplot as plt
 import time
 import mediapipe as mp
 from pprint import pprint
@@ -29,9 +27,9 @@ class signLanguageDetector():
     PoseLandmarker = mp.tasks.vision.PoseLandmarker
     PoseLandmarkerOptions = mp.tasks.vision.PoseLandmarkerOptions
 
-    hand_model_path = 'GUI/processing/models/hand_landmarkr_full.task'
-    face_model_path = 'GUI/processing/models/face_landmarker.task'
-    pose_model_path = 'GUI/processing/models/pose_landmarker_heavy.task'
+    hand_model_path = '/app/processing/models/hand_landmarkr_full.task'
+    face_model_path = '/app/processing/models/face_landmarker.task'
+    pose_model_path = '/app/processing/models/pose_landmarker_heavy.task'
 
     startTime = 0
 
@@ -43,7 +41,7 @@ class signLanguageDetector():
     def __init__(self, window=5):
         self.startTime = time.time()
         self.model = tf.keras.models.load_model(
-            'GUI/processing/models/modelv2.keras')
+            '/app/processing/models/modelv2.keras')
         self.handOptions = self.HandLandmarkerOptions(
             base_options=self.BaseOptions(
                 model_asset_path=self.hand_model_path),
