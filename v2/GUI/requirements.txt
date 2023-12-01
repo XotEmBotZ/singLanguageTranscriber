@@ -1,0 +1,7 @@
+scikit-learn
+tensorflow-gpu
+streamlit
+mediapipe
+streamlit_webrtc
+pandas
+opencv-python
