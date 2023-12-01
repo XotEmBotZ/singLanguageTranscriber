@@ -1,5 +1,5 @@
 scikit-learn
-tensorflow-gpu
+tensorflow-cpu
 streamlit
 mediapipe
 streamlit_webrtc
