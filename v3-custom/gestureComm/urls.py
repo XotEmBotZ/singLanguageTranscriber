@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('model-creator/', include('modelCreator.urls')),
     path('notification/', include('notification.urls')),
-    path('/', include('home.urls')),
+    path('', include('home.urls')),
 ]
