@@ -1,7 +1,0 @@
-scikit-learn
-tensorflow-cpu
-streamlit
-mediapipe
-streamlit_webrtc
-pandas
-opencv-python
