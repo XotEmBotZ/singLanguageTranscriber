@@ -1,95 +1,129 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client'
+import { useRef, useState, useEffect } from "react";
+import { HandLandmarker, HandLandmarkerOptions, FilesetResolver, DrawingUtils, camera, PoseLandmarker } from '@mediapipe/tasks-vision'
+import { Camera } from '@mediapipe/camera_utils'
 
 export default function Home() {
+  const [mediaStream, setMediaStream] = useState(null);
+  const [detectStart, setDetectStart] = useState(true)
+  const [cameraObj, setCameraObj] = useState(null)
+
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null)
+
+  const runningMode = "VIDEO";
+  /**
+   * @type {HandLandmarker}
+   */
+  let handLandmarker = null
+  /**
+   * @type {PoseLandmarker}
+   */
+  let poseLandmarker = null
+  let lastTimestamp = 0
+
+  const createLandmarker = async () => {
+    const vision = await FilesetResolver.forVisionTasks(
+      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
+    );
+    const hm = await HandLandmarker.createFromOptions(vision, {
+      baseOptions: {
+        modelAssetPath: `https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/latest/hand_landmarker.task`,
+        delegate: "GPU"
+      }
+    });
+    hm.setOptions({
+      runningMode: runningMode,
+      numHands: 2,
+    })
+    handLandmarker = hm
+    const pm = await PoseLandmarker.createFromOptions(vision, {
+      baseOptions: {
+        modelAssetPath: `https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/latest/pose_landmarker_full.task`,
+        delegate: "GPU"
+      }
+    });
+    pm.setOptions({
+      runningMode: runningMode,
+      numPoses: 1,
+    })
+    poseLandmarker = pm
+  };
+
+  async function setupMediaStream() {
+    try {
+      const ms = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user" },
+        audio: false
+      });
+      setMediaStream(ms);
+    } catch (e) {
+      alert("Camera is disabled");
+      throw e;
+    }
+  }
+
+  async function setupWebcamVideo() {
+    if (!mediaStream) {
+      await setupMediaStream();
+    } else {
+      const videoCurr = videoRef.current;
+      if (!videoCurr) return;
+      const video = videoCurr;
+      if (!video.srcObject) {
+        video.srcObject = mediaStream;
+      }
+    }
+    console.log("Working here")
+  }
+
+  const detect = async () => {
+    if (!handLandmarker) return
+    if (!poseLandmarker) return
+    console.log("In detect")
+
+    const canvasContext = canvasRef.current.getContext('2d')
+    canvasContext.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+
+    const handLandmarkResult = handLandmarker.detectForVideo(videoRef.current, performance.now())
+    const poseLandmarkResult = poseLandmarker.detectForVideo(videoRef.current, performance.now())
+
+    const dw = new DrawingUtils(canvasContext)
+    if (handLandmarkResult.landmarks) {
+      for (const landmarks of handLandmarkResult.landmarks) {
+        dw.drawLandmarks(landmarks)
+      }
+    }
+    if (poseLandmarkResult.landmarks) {
+      for (const landmarks of poseLandmarkResult.landmarks) {
+        dw.drawLandmarks(landmarks)
+      }
+    }
+  }
+
+  useEffect(() => {
+    setupWebcamVideo();
+    createLandmarker();
+    const cam = new Camera(videoRef.current, {
+      height: videoRef.current.videoHeight,
+      width: videoRef.current.videoWidth,
+      onFrame: detect
+    })
+    if (detectStart) cam.start()
+    setCameraObj(cam)
+  }, [mediaStream]);
+
+  const toggleDetect = () => {
+    const d = !detectStart
+    if (d) cameraObj.start()
+    if (!d) cameraObj.stop()
+    setDetectStart(d)
+  }
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    <div className="w-full h-full relative z-0">
+      <video className="h-full w-full mx-auto" ref={videoRef} autoPlay muted />
+      <button onClick={toggleDetect}>Detect Toggle</button>
+      <canvas ref={canvasRef}></canvas>
+    </div>
+  );
 }
