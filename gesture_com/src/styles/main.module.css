@@ -1,5 +1,6 @@
 .videoPlayer {
-    width: 90svw;
+    width: 90svh;
+    /* height: 80svh; */
     position: relative;
     overflow-x: hidden;
 }

@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { HandLandmarker, FilesetResolver, DrawingUtils, PoseLandmarker, DrawingOptions } from '@mediapipe/tasks-vision'
 import { Camera } from '@mediapipe/camera_utils'
 import styles from '@/styles/main.module.css'
+import * as tf from '@tensorflow/tfjs';
 
 
 export default function Home() {
@@ -10,13 +11,23 @@ export default function Home() {
   const [mediaStream, setMediaStream] = useState(null);
   const [detectStart, setDetectStart] = useState(true)
   const [cameraObj, setCameraObj] = useState(null)
+  const [prediction, setPrediction] = useState("")
 
   // reference declarations
   const videoRef = useRef(null);
   const canvasRef = useRef(null)
 
+  //urls
+  const modelUrl = '/modelv2_web/model.json'
+
   // medaipipe declarations
   const runningMode = "VIDEO";
+
+  //model storage
+  /**
+   * @type {tf.GraphModel}
+   */
+  let model = null
   /**
    * @type {HandLandmarker}
    */
@@ -25,6 +36,8 @@ export default function Home() {
    * @type {PoseLandmarker}
    */
   let poseLandmarker = null
+
+  const lables = ['control', 'yes', 'no', 'thankYou', 'hello', 'iLoveYou', 'peace', 'please',]
 
   // dump data declarations
   let temp = []
@@ -149,7 +162,6 @@ export default function Home() {
     if (!handLandmarker) return
     if (!poseLandmarker) return
     try {
-
       console.log("In detect")
 
       const canvasContext = canvasRef.current.getContext('2d')
@@ -170,7 +182,14 @@ export default function Home() {
         }
       }
       const finalData = processData(poseLandmarkResult, handLandmarkResult)
-      console.log(finalData)
+      if (model) {
+        const index = tf.tidy(() => {
+          const resTensor = tf.tensor2d([finalData])
+          const res = model.predict(resTensor)
+          return (res.flatten().argMax().dataSync()[0])
+        })
+        setPrediction(lables[index])
+      }
     } catch (e) {
       console.log(e)
       return
@@ -180,6 +199,10 @@ export default function Home() {
   useEffect(() => {
     setupWebcamVideo();
     createLandmarker();
+    tf.loadGraphModel(modelUrl).then(modelOpt => {
+      model = modelOpt
+      console.log('model updated')
+    });
     const cam = new Camera(videoRef.current, {
       height: videoRef.current.videoHeight,
       width: videoRef.current.videoWidth,
@@ -197,6 +220,7 @@ export default function Home() {
   }
   return (
     <>
+      <h1>{prediction}</h1>
       <div className={styles.videoPlayer}>
         <video className="h-full w-full mx-auto" ref={videoRef} autoPlay muted />
         <canvas ref={canvasRef}></canvas>
