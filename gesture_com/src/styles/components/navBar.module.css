@@ -1,0 +1,22 @@
+.navBar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem var(--pagePadding);
+    background-color: var(--primaryColor);
+}
+
+.navUl {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+}
+
+.navUl li a {
+    text-decoration: none;
+    color: var(--backgroundColor);
+    font-size: 1.25rem;
+}
