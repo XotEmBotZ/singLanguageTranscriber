@@ -1,0 +1,18 @@
+.mainSection {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    justify-items: start;
+    align-items: start;
+    justify-content: start;
+    align-content: stretch;
+}
+
+.asideHead {
+    font-size: 2rem;
+}
+
+.asideLink {
+    display: block;
+    color: black;
+    text-decoration: none;
+}
