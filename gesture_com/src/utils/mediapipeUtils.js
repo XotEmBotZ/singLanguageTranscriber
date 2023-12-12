@@ -57,6 +57,8 @@ export const createLandmarker = async (runningMode) => {
 };
 
 export const processData = (poseLandmarkResult, handLandmarkResult) => {
+    let gotData = false
+
     let poseData = dumpPoseLandmark
     if (poseLandmarkResult.landmarks.length > 0) {
         let temp = []
@@ -67,6 +69,7 @@ export const processData = (poseLandmarkResult, handLandmarkResult) => {
             temp.push(element.z)
         }
         poseData = temp
+        gotData = true
     }
 
     let leftHandData = dumpHandLandmark
@@ -99,7 +102,8 @@ export const processData = (poseLandmarkResult, handLandmarkResult) => {
         if (rTemp.length) {
             rightHandData = rTemp
         }
+        gotData = true
     }
 
-    return [].concat(poseData, leftHandData, rightHandData)
+    return [[].concat(poseData, leftHandData, rightHandData), gotData]
 }
