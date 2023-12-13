@@ -15,7 +15,7 @@ for (let index = 0; index < 32; index++) {
 }
 const dumpPoseLandmark = temp
 temp = []
-for (let index = 0; index < 20; index++) {
+for (let index = 0; index < 21; index++) {
     temp.push(0)
     temp.push(0)
     temp.push(0)
@@ -62,7 +62,7 @@ export const processData = (poseLandmarkResult, handLandmarkResult) => {
     let poseData = dumpPoseLandmark
     if (poseLandmarkResult.landmarks.length > 0) {
         let temp = []
-        for (let index = 0; index < poseLandmarkResult.landmarks[0].length; index++) {
+        for (let index = 0; index < 33; index++) {
             const element = poseLandmarkResult.landmarks[0][index];
             temp.push(element.x)
             temp.push(element.y)
@@ -81,14 +81,14 @@ export const processData = (poseLandmarkResult, handLandmarkResult) => {
             const element = handLandmarkResult.handedness[index][0];
             const landmarkElement = handLandmarkResult.landmarks[index]
             if (element.categoryName === "Left") {
-                for (let index = 0; index < landmarkElement.length; index++) {
+                for (let index = 0; index < 21; index++) {
                     const helement = landmarkElement[index];
                     lTemp.push(helement.x)
                     lTemp.push(helement.y)
                     lTemp.push(helement.z)
                 }
             } else if (element.categoryName === "Right") {
-                for (let index = 0; index < landmarkElement.length; index++) {
+                for (let index = 0; index < 21; index++) {
                     const helement = landmarkElement[index];
                     rTemp.push(helement.x)
                     rTemp.push(helement.y)
