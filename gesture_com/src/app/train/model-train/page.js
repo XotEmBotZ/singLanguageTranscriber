@@ -8,6 +8,8 @@ const ModelTrain = () => {
     //usestate declaration
     const [dataComplaint, setDataComplaint] = useState(false)
     const [trainTestSplit, setTrainTestSplit] = useState(0.7)
+    const [modelStatts, setModelStatts] = useState({})
+
     //Ref declaration
     const trainDataObj = useRef({})
     const inputShape = useRef(0)
@@ -58,9 +60,13 @@ const ModelTrain = () => {
     }, [])
 
     const trainCallback = (epochs, logs) => {
-        console.log(epochs, logs)
+        setModelStatts(logs)
     }
 
+    const saveModel = () => {
+        model.current.save("localstorage://customModel")
+        localStorage.setItem("customLabel", JSON.stringify(labels.current))
+    }
     const trainData = async () => {
         prepData()
         console.log(prepairedDataX.current.bufferSync())
@@ -73,7 +79,8 @@ const ModelTrain = () => {
         model.current.add(tf.layers.dense({ units: Object.keys(trainDataObj.current).length, activation: "softmax" }))
         model.current.compile({ optimizer: 'adam', loss: 'categoricalCrossentropy', metrics: ['categoricalAccuracy'] })
         model.current.summary()
-        console.log(model.current.fit(prepairedDataX.current, prepairedDataY.current, { epochs: 200, validationSplit: 0.2, verbose: 2, callbacks: { onEpochEnd: trainCallback } }))
+        console.log(model.current.fit(prepairedDataX.current, prepairedDataY.current, { epochs: 200, validationSplit: 0.2, verbose: 2, callbacks: { onEpochEnd: trainCallback, onTrainEnd: saveModel } }))
+
     }
     return (<>
 
@@ -99,8 +106,12 @@ const ModelTrain = () => {
         <div className={styles.outputDiv}>
 
             <div>
-                <h2 className={styles.capturedTitle}>Captured Data Points(s)</h2>
+                <h2 className={styles.capturedTitle}>Model Statistics</h2>
                 <div>
+                    <p>Validation Loss:{modelStatts.val_loss * 100}%</p>
+                    <p>Loss:{modelStatts.loss * 100}%</p>
+                    <p>Validation Accuracy:{modelStatts.val_categoricalAccuracy * 100}%</p>
+                    <p>Accuracy:{modelStatts.categoricalAccuracy * 100}%</p>
                 </div>
             </div>
         </div>
