@@ -26,9 +26,9 @@ export default function Detector() {
 
   //model storage
   /**
-   * @type {tf.GraphModel}
+   * @type {React.MutableRefObject<tf.GraphModel>}
    */
-  let model = null
+  let model = useRef(null)
   /**
    * @type {HandLandmarker}
    */
@@ -38,7 +38,10 @@ export default function Detector() {
    */
   let poseLandmarker = null
 
-  const lables = ['control', 'yes', 'no', 'thankYou', 'hello', 'iLoveYou', 'peace', 'please',]
+  /**
+   * @type {React.MutableRefObject<tf.GraphModel>}
+   */
+  const lables = useRef(['control', 'yes', 'no', 'thankYou', 'hello', 'iLoveYou', 'peace', 'please',])
 
   const detect = async () => {
     if (!handLandmarker) return
@@ -63,14 +66,14 @@ export default function Detector() {
           dw.drawLandmarks(landmarks)
         }
       }
-      const finalData = processData(poseLandmarkResult, handLandmarkResult)
-      if (model) {
+      const [finalData, gotData] = processData(poseLandmarkResult, handLandmarkResult)
+      if (gotData && model.current) {
         const index = tf.tidy(() => {
           const resTensor = tf.tensor2d([finalData])
-          const res = model.predict(resTensor)
+          const res = model.current.predict(resTensor)
           return (res.flatten().argMax().dataSync()[0])
         })
-        setPrediction(lables[index])
+        setPrediction(lables.current[index])
       }
     } catch (e) {
       console.warn(e)
@@ -86,10 +89,19 @@ export default function Detector() {
       handLandmarker = handLandmarkerOpt
       poseLandmarker = poseLandmarkerOpt
     });
-    tf.loadGraphModel(modelUrl).then(modelOpt => {
-      model = modelOpt
-      console.log('model updated')
-    });
+    if (localStorage.getItem("customLabel")) {
+      console.log("Start loading custom model")
+      tf.loadLayersModel("localstorage://customModel").then(modelOpt => {
+        console.log("Custom model loaded")
+        model.current = modelOpt
+        lables.current = JSON.parse(localStorage.getItem("customLabel"))
+      })
+    } else {
+      tf.loadGraphModel(modelUrl).then(modelOpt => {
+        console.log('default model loaded')
+        model.current = modelOpt
+      });
+    }
     const cam = new Camera(videoRef.current, {
       height: videoRef.current.videoHeight,
       width: videoRef.current.videoWidth,
