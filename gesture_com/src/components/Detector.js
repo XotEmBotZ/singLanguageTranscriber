@@ -13,6 +13,7 @@ export default function Detector() {
   const [detectStart, setDetectStart] = useState(true)
   const [cameraObj, setCameraObj] = useState(null)
   const [prediction, setPrediction] = useState("")
+  const [sentence, setSentence] = useState([])
 
   // reference declarations
   const videoRef = useRef(null);
@@ -74,6 +75,12 @@ export default function Detector() {
           return (res.flatten().argMax().dataSync()[0])
         })
         setPrediction(lables.current[index])
+        if (sentence.length > 5) {
+          sentence.shift()
+        }
+        sentence.push(lables.current[index])
+        setSentence(sentence)
+        console.log(sentence)
       }
     } catch (e) {
       console.warn(e)
@@ -119,8 +126,7 @@ export default function Detector() {
   }
   return (
     <>
-      <h1>{prediction}
-      </h1>
+      <h1>{prediction}</h1>
       <div className={styles.videoPlayer}>
         <video className="h-full w-full mx-auto" ref={videoRef} autoPlay muted />
         <canvas ref={canvasRef}></canvas>

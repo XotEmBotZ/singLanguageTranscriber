@@ -86,7 +86,7 @@ const ModelTrain = () => {
 
         <h1 className={styles.title}>Collect data to train your model</h1>
         {Object.keys(trainDataObj.current).length ? <p>You have collected data in <span>{Object.keys(trainDataObj.current).join(", ")}</span>. Your custom model will only be able to detect this symbols</p> : "Loading"}
-        {dataComplaint ? <></> : <p>Your data collection dosent have 'control' which is required to train the model</p>}
+        {dataComplaint ? <></> : <p> Your data collection dosent have &lsquo;control&rsquo; which is required to train the model</p>}
         <div>
             <h3>Collected data</h3>
             {Object.keys(trainDataObj.current).map((val, index) => {
