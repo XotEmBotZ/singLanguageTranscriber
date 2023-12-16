@@ -3,8 +3,10 @@ const basePath = process.env.NODE_ENV === 'production' ? '/singLanguageTranscrib
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'export',
-    basePath: `${basePath}`,
-    assetPrefix: `${basePath}`
+    basePath: "/nextjs-github-pages",
+    images: {
+        unoptimized: true,
+    },
 }
 
 module.exports = nextConfig
