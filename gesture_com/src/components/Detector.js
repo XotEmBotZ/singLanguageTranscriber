@@ -9,15 +9,16 @@ import { createLandmarker, processData } from '@/utils/mediapipeUtils'
 
 export default function Detector() {
   // useState declarations
+  const [errorMsg, setErrorMsg] = useState("")
   const [mediaStream, setMediaStream] = useState(null);
   const [detectStart, setDetectStart] = useState(true)
   const [cameraObj, setCameraObj] = useState(null)
-  const [prediction, setPrediction] = useState("")
-  const [sentence, setSentence] = useState([])
+  const [sentence, setSentence] = useState(["control"])
 
   // reference declarations
   const videoRef = useRef(null);
   const canvasRef = useRef(null)
+  const prediction = useRef([])
 
   //urls
   const modelUrl = 'localstorage://model'
@@ -48,7 +49,6 @@ export default function Detector() {
     if (!handLandmarker) return
     if (!poseLandmarker) return
     try {
-      console.log("In detect")
 
       const canvasContext = canvasRef.current.getContext('2d')
       canvasContext.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
@@ -74,13 +74,17 @@ export default function Detector() {
           const res = model.current.predict(resTensor)
           return (res.flatten().argMax().dataSync()[0])
         })
-        setPrediction(lables.current[index])
-        if (sentence.length > 5) {
-          sentence.shift()
+        setSentence(lables.current[index])
+        if (prediction.current.length > 5) {
+          prediction.current.shift()
         }
-        sentence.push(lables.current[index])
-        setSentence(sentence)
-        console.log(sentence)
+        prediction.current.push(lables.current[index])
+        if (new Set(prediction.current).size == 1 && sentence[-1] != prediction.current[0]) {
+          console.clear()
+          sentence.push(prediction.current[0])
+          setSentence(sentence)
+          console.log(sentence)
+        }
       }
     } catch (e) {
       console.warn(e)
@@ -103,11 +107,13 @@ export default function Detector() {
         model.current = modelOpt
         lables.current = JSON.parse(localStorage.getItem("customLabel"))
       })
-    } else {
+    } else if (localStorage.getItem("tensorflowjs_models/model/info")) {
       tf.loadGraphModel(modelUrl).then(modelOpt => {
         console.log('default model loaded')
         model.current = modelOpt
       });
+    } else {
+      setErrorMsg("Model couldn't be loaded. Kindly refresh the page")
     }
     const cam = new Camera(videoRef.current, {
       height: videoRef.current.videoHeight,
@@ -126,7 +132,8 @@ export default function Detector() {
   }
   return (
     <>
-      <h1>{prediction}</h1>
+      <h1>{prediction[0]}</h1>
+      <h1>{errorMsg}</h1>
       <div className={styles.videoPlayer}>
         <video className="h-full w-full mx-auto" ref={videoRef} autoPlay muted />
         <canvas ref={canvasRef}></canvas>

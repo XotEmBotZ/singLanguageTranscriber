@@ -1,8 +1,10 @@
 .videoPlayer {
     /* width: 70svw; */
     /* height: 80svh; */
+    max-height: 70svh;
+    aspect-ratio: 4/3;
+    overflow: hidden;
     position: relative;
-    overflow-x: hidden;
 }
 
 .videoPlayer video {

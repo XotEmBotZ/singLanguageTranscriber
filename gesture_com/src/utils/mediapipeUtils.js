@@ -80,14 +80,14 @@ export const processData = (poseLandmarkResult, handLandmarkResult) => {
         for (let index = 0; index < handLandmarkResult.handedness.length; index++) {
             const element = handLandmarkResult.handedness[index][0];
             const landmarkElement = handLandmarkResult.landmarks[index]
-            if (element.categoryName === "Left") {
+            if (element.categoryName === "Left" && lTemp.length == 0) {
                 for (let index = 0; index < 21; index++) {
                     const helement = landmarkElement[index];
                     lTemp.push(helement.x)
                     lTemp.push(helement.y)
                     lTemp.push(helement.z)
                 }
-            } else if (element.categoryName === "Right") {
+            } else if (element.categoryName === "Right" && rTemp.length == 0) {
                 for (let index = 0; index < 21; index++) {
                     const helement = landmarkElement[index];
                     rTemp.push(helement.x)

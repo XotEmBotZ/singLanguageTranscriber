@@ -66,6 +66,14 @@ const ModelTrain = () => {
     const saveModel = () => {
         model.current.save("localstorage://customModel")
         localStorage.setItem("customLabel", JSON.stringify(labels.current))
+        notifications.show({
+            message: "Your custom model is saved.",
+            withCloseButton: true,
+            title: "Model Saved",
+            color: "green",
+
+        })
+        return
     }
     const trainData = async () => {
         prepData()
@@ -108,10 +116,10 @@ const ModelTrain = () => {
             <div>
                 <h2 className={styles.capturedTitle}>Model Statistics</h2>
                 <div>
-                    <p>Validation Loss:{modelStatts.val_loss * 100}%</p>
-                    <p>Loss:{modelStatts.loss * 100}%</p>
-                    <p>Validation Accuracy:{modelStatts.val_categoricalAccuracy * 100}%</p>
-                    <p>Accuracy:{modelStatts.categoricalAccuracy * 100}%</p>
+                    <p>Validation Loss:{(modelStatts.val_loss * 100).toFixed(5)}%</p>
+                    <p>Loss:{(modelStatts.loss * 100).toFixed(5)}%</p>
+                    <p>Validation Accuracy:{(modelStatts.val_categoricalAccuracy * 100).toFixed(5)}%</p>
+                    <p>Accuracy:{(modelStatts.categoricalAccuracy * 100).toFixed(5)}%</p>
                 </div>
             </div>
         </div>

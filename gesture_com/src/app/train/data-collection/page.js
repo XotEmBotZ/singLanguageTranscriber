@@ -81,7 +81,8 @@ const TrainPage = () => {
             const [finalData, gotData] = processData(poseLandmarkResult, handLandmarkResult)
             if (gotData) {
                 if (finalData.length != 225) {
-                    console.error("ERROR in length")
+                    console.warn("ERROR in length")
+                    return
                 }
                 console.log(results, label, finalData.length)
                 results[label].push(finalData)
@@ -148,6 +149,14 @@ const TrainPage = () => {
     const saveData = () => {
         localStorage.setItem('trainData', JSON.stringify(results))
         console.log("SAVED")
+        notifications.show({
+            message: "Your data is saved",
+            withCloseButton: true,
+            title: "Data Saved",
+            color: "green",
+
+        })
+        return
     }
     return (
         <>
