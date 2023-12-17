@@ -1,18 +1,38 @@
 'use client'
 import styles from '@/styles/components/trainLayout.module.css'
 import Link from 'next/link'
+import { AppShell, NavLink, Badge } from '@mantine/core'
 
 export default function TrainLayout({ children }) {
     return (<>
-        <section className={styles.mainSection}>
-            <aside>
-                <h1 className={styles.asideHead}>Train Your Own Model</h1>
-                <Link className={styles.asideLink} href="data-collection">Data Collection</Link>
-                <Link className={styles.asideLink} href="model-train">Train Model</Link>
-            </aside>
-            <section>
-                {children}
-            </section>
+
+        <AppShell.Navbar p="md">
+            <h1 className={styles.asideHead}>Train Your Own Model</h1>
+            <NavLink
+                href="data-collection"
+                label="Data Collection"
+                description="Collect data to train your model"
+                leftSection={
+                    <Badge size="xs" variant="filled" color="red" w={16} h={16} p={0}>
+                        1
+                    </Badge>
+                }
+                component={Link}
+            />
+            <NavLink
+                href="model-train"
+                label="Model Training"
+                description="Train your model with collected data"
+                leftSection={
+                    <Badge size="xs" variant="filled" color="red" w={16} h={16} p={0}>
+                        2
+                    </Badge>
+                }
+                component={Link}
+            />
+        </AppShell.Navbar>
+        <section>
+            {children}
         </section>
     </>)
 }

@@ -1,7 +1,7 @@
 :root {
-  --primaryColor: #FF6347;
-  --backgroundColor: #eae9ea;
-  --foregroundColor: #0d0a09;
+  --primaryColor: var(--mantine-primary-color-filled);
+  --backgroundColor: var(--mantine-color-body);
+  --foregroundColor: var(--mantine-color-text);
   --secondaryColor: #8a8b8c;
   --pagePadding: 5svw
 }

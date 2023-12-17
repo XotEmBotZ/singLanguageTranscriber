@@ -1,12 +1,12 @@
-const basePath = process.env.NODE_ENV === 'production' ? '/singLanguageTranscriber' : '';
+const basePath = process.env.NODE_ENV === 'production' ? '/nextjs-github-pages' : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'export',
-    basePath: "/nextjs-github-pages",
-    images: {
-        unoptimized: true,
-    },
+    basePath: `${basePath}`,
+    // images: {
+    //     unoptimized: true,
+    // },
 }
 
 module.exports = nextConfig

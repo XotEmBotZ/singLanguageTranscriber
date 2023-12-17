@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import * as tf from '@tensorflow/tfjs';
 import { notifications } from '@mantine/notifications'
 import styles from "@/styles/train.module.css"
+import { redirect } from 'next/navigation'
+import { Button } from '@mantine/core'
 
 const ModelTrain = () => {
     //usestate declaration
@@ -49,6 +51,16 @@ const ModelTrain = () => {
     }
 
     useEffect(() => {
+        if (!localStorage.getItem('trainData')) {
+            notifications.show({
+                message: "Save the data from Data Collection Page",
+                withCloseButton: true,
+                title: "Data not found",
+                color: "red",
+
+            })
+            redirect('/train/data-collection')
+        }
         if (Object.keys(localStorage.getItem('trainData')).length) {
             trainDataObj.current = JSON.parse(localStorage.getItem('trainData'))
         }
@@ -87,7 +99,7 @@ const ModelTrain = () => {
         model.current.add(tf.layers.dense({ units: Object.keys(trainDataObj.current).length, activation: "softmax" }))
         model.current.compile({ optimizer: 'adam', loss: 'categoricalCrossentropy', metrics: ['categoricalAccuracy'] })
         model.current.summary()
-        console.log(model.current.fit(prepairedDataX.current, prepairedDataY.current, { epochs: 200, validationSplit: 0.2, verbose: 2, callbacks: { onEpochEnd: trainCallback, onTrainEnd: saveModel } }))
+        console.log(model.current.fit(prepairedDataX.current, prepairedDataY.current, { epochs: 200, verbose: 2, callbacks: { onEpochEnd: trainCallback, onTrainEnd: saveModel } }))
 
     }
     return (<>
@@ -105,20 +117,15 @@ const ModelTrain = () => {
             <p>Output shape = {Object.keys(trainDataObj.current).length}</p>
         </div>
         <div className={styles.inputDiv}>
-            <label htmlFor="trainTestSplit">
-                <span>Train Test Split: {parseInt(trainTestSplit * 100)}%</span>
-                <input type="range" name="trainTestSplit" id="trainTestSplit" value={trainTestSplit} min={0} max={1} step={0.01} onChange={e => setTrainTestSplit(e.target.value)} />
-            </label>
-            <button onClick={trainData}>Train Data</button>
+            {/* <button onClick={trainData}>Train Data</button> */}
+            <Button variant="filled" onClick={trainData}>Train Your Custom Model</Button>
         </div>
         <div className={styles.outputDiv}>
 
             <div>
                 <h2 className={styles.capturedTitle}>Model Statistics</h2>
                 <div>
-                    <p>Validation Loss:{(modelStatts.val_loss * 100).toFixed(5)}%</p>
                     <p>Loss:{(modelStatts.loss * 100).toFixed(5)}%</p>
-                    <p>Validation Accuracy:{(modelStatts.val_categoricalAccuracy * 100).toFixed(5)}%</p>
                     <p>Accuracy:{(modelStatts.categoricalAccuracy * 100).toFixed(5)}%</p>
                 </div>
             </div>

@@ -1,8 +1,9 @@
 import React from 'react'
 import styles from '@/styles/components/navBar.module.css'
 import Link from 'next/link'
+import { Burger } from '@mantine/core'
 
-const NavBar = () => {
+const NavBar = ({ opened, toggle }) => {
     return (
         <nav className={styles.navBar}>
             <ul className={styles.navUl}>
@@ -10,6 +11,11 @@ const NavBar = () => {
                 <li><Link href='/detect'>Detect</Link></li>
                 <li><Link href='/train'>Train</Link></li>
             </ul>
+            <Burger
+                opened={opened}
+                onClick={toggle}
+                size="sm"
+            />
         </nav>
     )
 }

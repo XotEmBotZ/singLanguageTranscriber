@@ -7,6 +7,7 @@ import { setupWebcamVideo } from '@/utils/cameraUtils'
 import { createLandmarker, processData } from '@/utils/mediapipeUtils'
 import styles from '@/styles/train.module.css'
 import { notifications } from '@mantine/notifications'
+import { TextInput, Group, Button, Progress } from '@mantine/core';
 
 const TrainPage = () => {
     // useState declarations
@@ -158,6 +159,28 @@ const TrainPage = () => {
         })
         return
     }
+
+    const clearMemoryData = () => {
+        setResults({})
+        notifications.show({
+            message: "Cleared Data from Memory",
+            withCloseButton: true,
+            title: "Data cleared",
+            color: "yellow",
+
+        })
+    }
+
+    const clearDiskData = () => {
+        localStorage.removeItem('trainData')
+        notifications.show({
+            message: "Cleared Data from Disk",
+            withCloseButton: true,
+            title: "Data cleared",
+            color: "yellow",
+
+        })
+    }
     return (
         <>
             <h1 onClick={showResults} className={styles.title}>Collect data to train your model</h1>
@@ -165,11 +188,28 @@ const TrainPage = () => {
             <p>NOTE: - You must record &lsquo; control&rsquo; sign to make the model work.&lsquo;control&rsquo; sign is just standing still or not showing any sign</p>
             <p>After clicking on start capturing, it will stop after 10seconds. If you want to capture more data, click the button again with the same label name</p>
             <p>You need to save the data to before proceeding to model train page</p>
-            <div className={styles.inputDiv}>
+            {/* <div className={styles.inputDiv}>
                 <input type="text" name="label" id="label" value={label} onChange={value => setLabel(value.target.value)} placeholder="Enter Sing Name" />
                 <button onClick={detectHandler}>{detectStart ? "Capturing" : "Start Capturing"}</button>
                 <button onClick={saveData}>Save data</button>
-            </div>
+            </div> */}
+            <Group justify="space-between" p={"md"}>
+                <TextInput
+                    label="Sign Name"
+                    withAsterisk
+                    description="Sign name is the name of the sign you are about to capture the data off."
+                    placeholder="Enter the sign name"
+                    value={label}
+                    onChange={(event) => setLabel(event.currentTarget.value)}
+                    radius={"md"}
+                />
+                <Button onClick={detectHandler} variant="filled" radius={"md"}>{detectStart ? "Capturing" : "Start Capturing"}</Button>
+                <Button onClick={saveData} variant="filled" radius={"md"}>Save Data</Button>
+            </Group>
+            <Group justify="center" p={"md"}>
+                <Button onClick={clearMemoryData}>Clear Data (from Momory)</Button>
+                <Button onClick={clearDiskData}>Clear Data (from Disk)</Button>
+            </Group>
             <div className={styles.outputDiv}>
                 <div className={videoStyles.videoPlayer}>
                     <video className="h-full w-full mx-auto" ref={videoRef} autoPlay muted />
