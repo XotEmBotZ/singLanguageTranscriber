@@ -6,7 +6,7 @@ import Detector from '@/components/Detector';
 const Detect = () => {
 
     //Constants
-    const modelUrl = '/modelv2_web/model.json'
+    const modelUrl = `${process.env.basePath}/modelv2_web/model.json`
     //Effects
     useEffect(() => {
         //Load model to localstorage
