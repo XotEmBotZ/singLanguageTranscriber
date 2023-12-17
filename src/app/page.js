@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { AppShell, NavLink, Badge, Flex, Title, Text, Card, Image, Group, Button } from '@mantine/core'
+import { AppShell, NavLink, Badge, Flex, Title, Text, Card, Image, Group, List } from '@mantine/core'
 import Link from 'next/link'
 
 const Home = () => {
@@ -79,8 +79,22 @@ const Home = () => {
                         }
                     />
                 </Flex>
-                <Title order={2}>Check it out by yourself here:</Title>
-                <Image radius={'md'} src={'qrcode.svg'} w={'min(20rem,100svw)'} />
+                <Flex align={'flex-start'} justify={'center'} gap={'md'} wrap={'wrap'}>
+                    <Flex direction={'column'}>
+                        <Title order={2}>Check it out by yourself here:</Title>
+                        <Image radius={'md'} src={'qrcode.svg'} w={'min(20rem,100svw)'} />
+                    </Flex>
+                    <Flex direction={'column'}>
+                        <Title order={2}>Use cases:</Title>
+                        <List>
+                            <List.Item>Facilate communication with differently abled people on the fly.</List.Item>
+                            <List.Item>Used as a communication between childed and elders.</List.Item>
+                            <List.Item>Used in a public place to facilate the communication between common people and differently abled people.</List.Item>
+                            <List.Item>Used by emergency services to understand the situation of a differently abled person.</List.Item>
+                            <List.Item>Many more...</List.Item>
+                        </List>
+                    </Flex>
+                </Flex>
                 <Title order={2}>Technologies used:</Title>
                 <Flex
                     gap="md"
@@ -277,6 +291,13 @@ const Home = () => {
                     </Card>
                 </Flex>
                 <Text>Want to see the source code? See <a href="https://github.com/XotEmBotZ/singLanguageTranscriber">here</a></Text>
+                <Title order={2}>Future Plans:</Title>
+                <List>
+                    <List.Item>Make the whole site totaily offline to facilate the use in the absence of internet</List.Item>
+                    <List.Item>Convert the site to PWA for getter accesiblity</List.Item>
+                    <List.Item>Add notification support to send notification upon recognising a particular sign</List.Item>
+                    <List.Item>Expand the default model to recognise more general symbols</List.Item>
+                </List>
             </Flex>
         </>
     )
