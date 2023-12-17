@@ -4,7 +4,7 @@ const basePath = process.env.NODE_ENV === 'production' ? '/nextjs-github-pages' 
 const nextConfig = {
     output: 'export',
     basePath: `${basePath}`,
-    assetPrefix: `${basePath}`,
+    // assetPrefix: `${basePath}`,
     // images: {
     //     unoptimized: true,
     // },
