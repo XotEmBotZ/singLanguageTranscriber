@@ -94,6 +94,7 @@ export default function Detector() {
           console.log(prediction.current[0], sentence.current)
           setSentenceOpt(sentence.current.join(" "))
         }
+        // console.log(prediction.current)
       }
     } catch (e) {
       console.warn(e)

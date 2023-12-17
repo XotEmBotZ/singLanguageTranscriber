@@ -7,7 +7,7 @@ import { setupWebcamVideo } from '@/utils/cameraUtils'
 import { createLandmarker, processData } from '@/utils/mediapipeUtils'
 import styles from '@/styles/train.module.css'
 import { notifications } from '@mantine/notifications'
-import { TextInput, Group, Button, Progress } from '@mantine/core';
+import { TextInput, Group, Button, Autocomplete } from '@mantine/core';
 
 const TrainPage = () => {
     // useState declarations
@@ -193,15 +193,13 @@ const TrainPage = () => {
                 <button onClick={detectHandler}>{detectStart ? "Capturing" : "Start Capturing"}</button>
                 <button onClick={saveData}>Save data</button>
             </div> */}
-            <Group justify="space-between" p={"md"}>
-                <TextInput
+            <Group justify="space-around" p={"md"}>
+                <Autocomplete
                     label="Sign Name"
-                    withAsterisk
-                    description="Sign name is the name of the sign you are about to capture the data off."
                     placeholder="Enter the sign name"
+                    data={Object.keys(results)}
                     value={label}
-                    onChange={(event) => setLabel(event.currentTarget.value)}
-                    radius={"md"}
+                    onChange={setLabel}
                 />
                 <Button onClick={detectHandler} variant="filled" radius={"md"}>{detectStart ? "Capturing" : "Start Capturing"}</Button>
                 <Button onClick={saveData} variant="filled" radius={"md"}>Save Data</Button>

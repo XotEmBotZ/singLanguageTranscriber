@@ -9,7 +9,7 @@ export default function TrainLayout({ children }) {
         <AppShell.Navbar p="md">
             <h1 className={styles.asideHead}>Train Your Own Model</h1>
             <NavLink
-                href="data-collection"
+                href="/train/data-collection"
                 label="Data Collection"
                 description="Collect data to train your model"
                 leftSection={
@@ -20,7 +20,7 @@ export default function TrainLayout({ children }) {
                 component={Link}
             />
             <NavLink
-                href="model-train"
+                href="/train/model-train"
                 label="Model Training"
                 description="Train your model with collected data"
                 leftSection={
