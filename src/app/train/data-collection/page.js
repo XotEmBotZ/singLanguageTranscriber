@@ -188,11 +188,6 @@ const TrainPage = () => {
             <p>NOTE: - You must record &lsquo; control&rsquo; sign to make the model work.&lsquo;control&rsquo; sign is just standing still or not showing any sign.</p>
             <p>After clicking on start capturing, it will stop after 10seconds. If you want to capture more data, click the button again with the same label name.</p>
             <p>You need to save the data before proceeding to model train page</p>
-            {/* <div className={styles.inputDiv}>
-                <input type="text" name="label" id="label" value={label} onChange={value => setLabel(value.target.value)} placeholder="Enter Sing Name" />
-                <button onClick={detectHandler}>{detectStart ? "Capturing" : "Start Capturing"}</button>
-                <button onClick={saveData}>Save data</button>
-            </div> */}
             <Group justify="space-around" p={"md"}>
                 <Autocomplete
                     label="Sign Name"

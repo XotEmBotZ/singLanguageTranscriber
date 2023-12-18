@@ -51,8 +51,8 @@ const Home = () => {
                 wrap="wrap"
             >
                 <Title order={1} size={'xxx-large'}>GestureCom: Bridging the communication gap</Title>
-                <Title order={1} size={'xx-large'}>Explore your world of sings with us!</Title>
-                <Text>GestureCom is a privacy first, offline capable sing language transcriber. <br />It comes with a pre-build model to get started and also offers the user, the ability to train their own model <br />All the data is processed on the device and it never leaves the device.</Text>
+                <Title order={1} size={'xx-large'}>Explore your world of sign with us!</Title>
+                <Text>GestureCom is a privacy first, offline capable sign language transcriber. <br />It comes with a pre-build model to get started and also offers the user, the ability to train their own model <br />All the data is processed on the device and it never leaves the device.</Text>
                 <Text>Enjoy the privacy focussed, offline (partial) experience on your own by checking the following features</Text>
 
                 <Flex>
@@ -87,9 +87,9 @@ const Home = () => {
                     <Flex direction={'column'}>
                         <Title order={2}>Use cases:</Title>
                         <List>
-                            <List.Item>Facilate communication with differently abled people on the fly.</List.Item>
+                            <List.Item>Facilitate communication with differently abled people on the fly.</List.Item>
                             <List.Item>Used as a communication between children and elders.</List.Item>
-                            <List.Item>Used in a public place to facilate the communication between common people and differently abled people.</List.Item>
+                            <List.Item>Used in a public place to facilitate the communication between common people and differently abled people.</List.Item>
                             <List.Item>Used by emergency services to understand the situation of a differently abled person.</List.Item>
                             <List.Item>Many more...</List.Item>
                         </List>
@@ -133,7 +133,7 @@ const Home = () => {
                             <Badge color="pink">Machine Learning</Badge>
                         </Group>
                         <Text size="sm" c="dimmed">
-                            Used tensorflow-js to facilate the training and running of both pre-built and custom model right in your device
+                            Used tensorflow-js to facilitate the training and running of both pre-built and custom model right in your device
                         </Text>
                     </Card>
                     <Card shadow="sm" padding="lg" radius="md" withBorder w={'min-content'}>
@@ -167,7 +167,7 @@ const Home = () => {
                             <Badge color="pink">Web</Badge>
                         </Group>
                         <Text size="sm" c="dimmed">
-                            Used to make the skeliton of the site.
+                            Used to make the skeleton of the site.
                         </Text>
                     </Card>
                     <Card shadow="sm" padding="lg" radius="md" withBorder w={'min-content'}>
@@ -184,7 +184,7 @@ const Home = () => {
                             <Badge color="pink">Web</Badge>
                         </Group>
                         <Text size="sm" c="dimmed">
-                            Javascript is used to run and handel the used interaction in the web. This also facilates the intervace with webGl.
+                            Javascript is used to run and handle the used interaction in the web. This also facilitate the intervace with webGl.
                         </Text>
                     </Card>
                     <Card shadow="sm" padding="lg" radius="md" withBorder w={'min-content'}>
@@ -218,7 +218,7 @@ const Home = () => {
                             <Badge color="pink">Web|Computing</Badge>
                         </Group>
                         <Text size="sm" c="dimmed">
-                            WebGl is used to run the models in the machine directly. This eliminates the slow VM of JS and can handel large datasets with ease
+                            WebGl is used to run the models in the machine directly. This eliminates the slow VM of JS and can handle large datasets with ease
                         </Text>
                     </Card>
                     <Card shadow="sm" padding="lg" radius="md" withBorder w={'min-content'}>
@@ -269,7 +269,7 @@ const Home = () => {
                             <Badge color="pink">Web</Badge>
                         </Group>
                         <Text size="sm" c="dimmed">
-                            NextJS is used to streamline the developed experience and facilate faster iteration
+                            NextJS is used to streamline the developed experience and facilitate faster iteration
                         </Text>
                     </Card>
                     <Card shadow="sm" padding="lg" radius="md" withBorder w={'min-content'}>
@@ -306,7 +306,7 @@ const Home = () => {
                 </Flex>
                 <Title order={2}>Future Plans:</Title>
                 <List>
-                    <List.Item>Make the whole site totaily offline to facilate the use in the absence of internet</List.Item>
+                    <List.Item>Make the whole site totaily offline to facilitate the use in the absence of internet</List.Item>
                     <List.Item>Convert the site to PWA for getter accessiblity</List.Item>
                     <List.Item>Add notification support to send notification upon recognising a particular sign</List.Item>
                     <List.Item>Expand the default model to recognise more general symbols</List.Item>
