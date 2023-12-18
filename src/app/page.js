@@ -52,8 +52,8 @@ const Home = () => {
             >
                 <Title order={1} size={'xxx-large'}>GestureCom: Bridging the communication gap</Title>
                 <Title order={1} size={'xx-large'}>Explore your world of sings with us!</Title>
-                <Text>GestureCom is a privacy first, offline capable sing language transcriber. <br />It comes with a pre-build model to get started and also offers the user the ability to train their own model <br />All data is processed on device and it never leaves your own device.</Text>
-                <Text>Enjoy the privacy focsed, offline (partial) experience on your own by checking the following features</Text>
+                <Text>GestureCom is a privacy first, offline capable sing language transcriber. <br />It comes with a pre-build model to get started and also offers the user, the ability to train their own model <br />All the data is processed on the device and it never leaves the device.</Text>
+                <Text>Enjoy the privacy focussed, offline (partial) experience on your own by checking the following features</Text>
 
                 <Flex>
                     <NavLink
@@ -307,7 +307,7 @@ const Home = () => {
                 <Title order={2}>Future Plans:</Title>
                 <List>
                     <List.Item>Make the whole site totaily offline to facilate the use in the absence of internet</List.Item>
-                    <List.Item>Convert the site to PWA for getter accesiblity</List.Item>
+                    <List.Item>Convert the site to PWA for getter accessiblity</List.Item>
                     <List.Item>Add notification support to send notification upon recognising a particular sign</List.Item>
                     <List.Item>Expand the default model to recognise more general symbols</List.Item>
                 </List>
