@@ -88,7 +88,7 @@ const Home = () => {
                         <Title order={2}>Use cases:</Title>
                         <List>
                             <List.Item>Facilate communication with differently abled people on the fly.</List.Item>
-                            <List.Item>Used as a communication between childed and elders.</List.Item>
+                            <List.Item>Used as a communication between children and elders.</List.Item>
                             <List.Item>Used in a public place to facilate the communication between common people and differently abled people.</List.Item>
                             <List.Item>Used by emergency services to understand the situation of a differently abled person.</List.Item>
                             <List.Item>Many more...</List.Item>
@@ -291,6 +291,19 @@ const Home = () => {
                     </Card>
                 </Flex>
                 <Text>Want to see the source code? See <a href="https://github.com/XotEmBotZ/singLanguageTranscriber">here</a></Text>
+                <Flex
+                    align={'flex-start'}
+                    justify={'center'}
+                    wrap={'wrap'}>
+                    <Image
+                        src={'flowChart.svg'}
+                        alt='flowChartDetection'
+                    />
+                    <Image
+                        src={'modelTrainFlowChart.svg'}
+                        alt='flowChartModelTraining'
+                    />
+                </Flex>
                 <Title order={2}>Future Plans:</Title>
                 <List>
                     <List.Item>Make the whole site totaily offline to facilate the use in the absence of internet</List.Item>
