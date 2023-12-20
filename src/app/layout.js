@@ -33,7 +33,7 @@ const theme = createTheme({
 });
 
 export default function RootLayout({ children }) {
-  const [opened, { toggle, close }] = useDisclosure(true);
+  const [opened, { toggle, close }] = useDisclosure(false);
 
   return (
     <html lang="en">
@@ -54,7 +54,7 @@ export default function RootLayout({ children }) {
             <AppShell.Header>
               <NavBar opened={opened} toggle={toggle}></NavBar>
             </AppShell.Header>
-            <AppShell.Navbar p="md">Navbar</AppShell.Navbar>/
+            <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
             <AppShell.Main>
               <main style={{ padding: '1rem var(--pagePadding)' }}>
                 {children}

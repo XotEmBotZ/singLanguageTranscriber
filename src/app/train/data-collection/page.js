@@ -7,7 +7,8 @@ import { setupWebcamVideo } from '@/utils/cameraUtils'
 import { createLandmarker, processData } from '@/utils/mediapipeUtils'
 import styles from '@/styles/train.module.css'
 import { notifications } from '@mantine/notifications'
-import { TextInput, Group, Button, Autocomplete } from '@mantine/core';
+import { TextInput, Group, Button, Autocomplete, Grid } from '@mantine/core';
+
 
 const TrainPage = () => {
     // useState declarations
@@ -16,6 +17,9 @@ const TrainPage = () => {
     const [results, setResults] = useState({})
     const [label, setLabel] = useState("")
     // const [tempData, setTempData] = useState([])
+
+    //third party hooks
+    // const matches = useMediaQuery('(min-width: 56.25em)');
 
     // reference declarations
     const videoRef = useRef(null);
@@ -35,12 +39,6 @@ const TrainPage = () => {
     // medaipipe declarations
     const runningMode = "VIDEO";
 
-    //model storage
-    /**
-     * @type {tf.GraphModel}
-     */
-    var model = null
-
     var detectInterval
 
     useEffect(() => {
@@ -49,10 +47,6 @@ const TrainPage = () => {
             handLandmarker.current = handLandmarkerOpt
             poseLandmarker.current = poseLandmarkerOpt
             console.log(handLandmarker.current, poseLandmarker.current)
-        });
-        tf.loadGraphModel(modelUrl).then(modelOpt => {
-            model = modelOpt
-            console.log('model updated')
         });
     }, [mediaStream]);
 
@@ -203,20 +197,22 @@ const TrainPage = () => {
                 <Button onClick={clearMemoryData}>Clear Data (from Momory)</Button>
                 <Button onClick={clearDiskData}>Clear Data (from Disk)</Button>
             </Group>
-            <div className={styles.outputDiv}>
-                <div className={videoStyles.videoPlayer}>
-                    <video className="h-full w-full mx-auto" ref={videoRef} autoPlay muted />
-                    <canvas ref={canvasRef}></canvas>
-                </div>
-                <div>
+            <Grid grow>
+                <Grid.Col span={{ base: 12, md: 4, lg: 4 }}>
+                    <div className={videoStyles.videoPlayer}>
+                        <video className="h-full w-full mx-auto" ref={videoRef} autoPlay muted />
+                        <canvas ref={canvasRef}></canvas>
+                    </div>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 4, lg: 4 }}>
                     <h2 className={styles.capturedTitle}>Captured Data Points(s)</h2>
                     <div>
                         {Object.keys(results).map((val, index) => {
                             return <p key={val + index}>{val}:{results[val].length}</p>
                         })}
                     </div>
-                </div>
-            </div>
+                </Grid.Col>
+            </Grid >
 
         </>
     );

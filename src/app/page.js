@@ -54,7 +54,6 @@ const Home = () => {
                 <Title order={1} size={'xx-large'}>Explore your world of sign with us!</Title>
                 <Text>GestureCom is a privacy first, offline capable sign language transcriber. <br />It comes with a pre-build model to get started and also offers the user, the ability to train their own model <br />All the data is processed on the device and it never leaves the device.</Text>
                 <Text>Enjoy the privacy focussed, offline (partial) experience on your own by checking the following features</Text>
-
                 <Flex>
                     <NavLink
                         href="/detect"
@@ -79,6 +78,17 @@ const Home = () => {
                         }
                     />
                 </Flex>
+                <Title order={2}>Default Model:</Title>
+                <Text>The default model can recognise 7 general signs. <br />The gestues that are recognised by the default model is:</Text>
+                <List>
+                    <List.Item>yes</List.Item>
+                    <List.Item>no</List.Item>
+                    <List.Item>hello</List.Item>
+                    <List.Item>peace</List.Item>
+                    <List.Item>i love you</List.Item>
+                    <List.Item>thank you</List.Item>
+                    <List.Item>please</List.Item>
+                </List>
                 <Flex align={'flex-start'} justify={'center'} gap={'md'} wrap={'wrap'}>
                     <Flex direction={'column'}>
                         <Title order={2}>Check it out by yourself here:</Title>
